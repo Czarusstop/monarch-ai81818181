@@ -28,6 +28,16 @@ async function sendMessage() {
       }),
     });
 
+    if (!response.ok) {
+      chat.lastChild.remove();
+      appendMessage(
+        "MONARCH AI",
+        `Błąd serwera: ${response.status} (${response.statusText})`
+      );
+      console.error("Odpowiedź serwera nieprawidłowa:", response.statusText);
+      return;
+    }
+
     const data = await response.json();
     chat.lastChild.remove();
     appendMessage("MONARCH AI", data.reply || "Brak odpowiedzi.");
