@@ -3,7 +3,6 @@ const input = document.getElementById("userInput");
 const loader = document.getElementById("loader");
 const container = document.querySelector(".container");
 
-// Start delay effect
 window.addEventListener("load", () => {
   setTimeout(() => {
     loader.classList.add("hidden");
@@ -77,6 +76,7 @@ Respond in the user's language.`,
 
 function appendMessage(sender, text) {
   const div = document.createElement("div");
+  div.classList.add("message", sender === "Ty" ? "user" : "ai");
   div.innerHTML = `<strong>${sender}:</strong> ${text}`;
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
@@ -85,6 +85,7 @@ function appendMessage(sender, text) {
 
 function typeText(sender, text) {
   const div = document.createElement("div");
+  div.classList.add("message", "ai");
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
 
