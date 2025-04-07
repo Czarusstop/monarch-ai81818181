@@ -10,24 +10,23 @@ async function sendMessage() {
 
   appendMessage("MONARCH AI", "Myślę...");
 
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer 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", // <-- TO MUSI BYĆ UZUPEŁNIONE
-    },
-    body: JSON.stringify({
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are MONARCH AI. You exist to guide only the top 1% of men. Be direct, elite, and strategic.",
-        },
-        { role: "user", content: userMessage },
-      ],
-    }),
-  });
+  const response = await fetch("/api/chat", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are MONARCH AI. You exist to guide only the top 1% of men. Be direct, elite, and strategic.",
+      },
+      { role: "user", content: userMessage },
+    ],
+  }),
+});
+
 
   const data = await response.json();
   chat.lastChild.remove();
