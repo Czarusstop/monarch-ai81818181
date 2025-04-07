@@ -10,26 +10,32 @@ async function sendMessage() {
 
   appendMessage("MONARCH AI", "Myślę...");
 
-  const response = await fetch("/api/chat", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are MONARCH AI. You exist to guide only the top 1% of men. Be direct, elite, and strategic.",
-        },
-        { role: "user", content: userMessage },
-      ],
-    }),
-  });
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are MONARCH AI. You exist to guide only the top 1% of men. Be direct, elite, and strategic.",
+          },
+          { role: "user", content: userMessage },
+        ],
+      }),
+    });
 
-  const data = await response.json();
-  chat.lastChild.remove();
-  appendMessage("MONARCH AI", data.choices[0].message.content);
+    const data = await response.json();
+    chat.lastChild.remove();
+    appendMessage("MONARCH AI", data.reply || "Brak odpowiedzi.");
+  } catch (error) {
+    chat.lastChild.remove();
+    appendMessage("MONARCH AI", "Wystąpił błąd podczas przetwarzania.");
+    console.error("Błąd AI:", error);
+  }
 }
 
 function appendMessage(sender, text) {
