@@ -4,18 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MONARCH AI</title>
-    <!-- Czcionka Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-    <!-- Style -->
     <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   </head>
   <body>
     <div class="container">
-      <h1>MONARCH AI</h1>
+      <h1>MONARCH <span>AI</span></h1>
       <div id="chat"></div>
       <div class="input-container">
-        <input type="text" id="userInput" placeholder="Zadaj pytanie..." />
-        <button onclick="sendMessage()">Wyślij</button>
+        <input type="text" id="userInput" placeholder="Zadaj pytanie..." autocomplete="off"/>
+        <button onclick="sendMessage()">➤</button>
       </div>
     </div>
     <script src="script.js"></script>
