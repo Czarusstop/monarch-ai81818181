@@ -8,11 +8,16 @@ export default async function handler(req, res) {
       Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
     },
     body: JSON.stringify({
-      model: "gpt-4o",
+      model: "gpt-4",
       messages: body.messages,
     }),
   });
 
   const data = await openaiRes.json();
-  res.status(200).json({ reply: data.choices[0].message });
+
+  if (data.choices && data.choices.length > 0) {
+    res.status(200).json({ reply: data.choices[0].message.content });
+  } else {
+    res.status(500).json({ error: "Brak odpowiedzi z OpenAI", data });
+  }
 }
