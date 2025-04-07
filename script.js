@@ -11,22 +11,21 @@ async function sendMessage() {
   appendMessage("MONARCH AI", "Myślę...");
 
   const response = await fetch("/api/chat", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    messages: [
-      {
-        role: "system",
-        content:
-          "You are MONARCH AI. You exist to guide only the top 1% of men. Be direct, elite, and strategic.",
-      },
-      { role: "user", content: userMessage },
-    ],
-  }),
-});
-
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are MONARCH AI. You exist to guide only the top 1% of men. Be direct, elite, and strategic.",
+        },
+        { role: "user", content: userMessage },
+      ],
+    }),
+  });
 
   const data = await response.json();
   chat.lastChild.remove();
