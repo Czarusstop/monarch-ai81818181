@@ -9,7 +9,7 @@ export default async function handler(req, res) {
         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "gpt-4", // albo gpt-4o jeśli masz dostęp
+        model: "gpt-3.5-turbo", // albo gpt-4o jeśli masz dostęp
         messages: body.messages,
       }),
     });
