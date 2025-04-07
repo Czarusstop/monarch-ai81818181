@@ -15,10 +15,10 @@ async function sendMessage() {
   const userMessage = input.value.trim();
   if (!userMessage) return;
 
-  appendMessage("Ty", userMessage, "user");
+  appendMessage("Ty", userMessage);
   input.value = "";
 
-  const aiElement = appendMessage("MONARCH AI", "Myślę...", "ai");
+  const aiElement = appendMessage("MONARCH AI", "Myślę...");
 
   try {
     const response = await fetch("/api/chat", {
@@ -68,26 +68,24 @@ End every answer with a final instruction or mental trigger.`,
 
     const data = await response.json();
     chat.removeChild(aiElement);
-    typeText("MONARCH AI", data.reply || "Brak odpowiedzi.", "ai");
+    typeText("MONARCH AI", data.reply || "Brak odpowiedzi.");
   } catch (error) {
     chat.removeChild(aiElement);
-    appendMessage("MONARCH AI", "Wystąpił błąd. Spróbuj ponownie.", "ai");
+    appendMessage("MONARCH AI", "Wystąpił błąd. Spróbuj ponownie.");
     console.error("Błąd AI:", error);
   }
 }
 
-function appendMessage(sender, text, type) {
+function appendMessage(sender, text) {
   const div = document.createElement("div");
-  div.classList.add("message", type);
   div.innerHTML = `<strong>${sender}:</strong> ${text}`;
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
   return div;
 }
 
-function typeText(sender, text, type) {
+function typeText(sender, text) {
   const div = document.createElement("div");
-  div.classList.add("message", type);
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
 
