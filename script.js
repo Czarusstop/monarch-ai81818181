@@ -1,5 +1,15 @@
 const chat = document.getElementById("chat");
 const input = document.getElementById("userInput");
+const loader = document.getElementById("loader");
+const container = document.querySelector(".container");
+
+// Start delay effect
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    loader.classList.add("hidden");
+    container.classList.remove("hidden");
+  }, 1500);
+});
 
 async function sendMessage() {
   const userMessage = input.value.trim();
@@ -8,14 +18,12 @@ async function sendMessage() {
   appendMessage("Ty", userMessage);
   input.value = "";
 
-  appendMessage("MONARCH AI", "Myślę...");
+  const aiElement = appendMessage("MONARCH AI", "Myślę...");
 
   try {
     const response = await fetch("/api/chat", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         messages: [
           {
@@ -52,29 +60,18 @@ Never respond with fluff. Eliminate weak phrasing.
 ⚠️ Respond in the same language the user writes in. Do not switch to English unless the user does.
 
 End every answer with a final instruction or mental trigger.`,
-
           },
           { role: "user", content: userMessage },
         ],
       }),
     });
 
-    if (!response.ok) {
-      chat.lastChild.remove();
-      appendMessage(
-        "MONARCH AI",
-        `Błąd serwera: ${response.status} (${response.statusText})`
-      );
-      console.error("Odpowiedź serwera nieprawidłowa:", response.statusText);
-      return;
-    }
-
     const data = await response.json();
-    chat.lastChild.remove();
-    appendMessage("MONARCH AI", data.reply || "Brak odpowiedzi.");
+    chat.removeChild(aiElement);
+    typeText("MONARCH AI", data.reply || "Brak odpowiedzi.");
   } catch (error) {
-    chat.lastChild.remove();
-    appendMessage("MONARCH AI", error.message || "Wystąpił nieznany błąd.");
+    chat.removeChild(aiElement);
+    appendMessage("MONARCH AI", "Wystąpił błąd. Spróbuj ponownie.");
     console.error("Błąd AI:", error);
   }
 }
@@ -84,4 +81,21 @@ function appendMessage(sender, text) {
   div.innerHTML = `<strong>${sender}:</strong> ${text}`;
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
+  return div;
+}
+
+function typeText(sender, text) {
+  const div = document.createElement("div");
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+
+  let index = 0;
+  function type() {
+    if (index < text.length) {
+      div.innerHTML = `<strong>${sender}:</strong> ${text.slice(0, index + 1)}`;
+      index++;
+      setTimeout(type, 10);
+    }
+  }
+  type();
 }
