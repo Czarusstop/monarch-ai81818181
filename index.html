@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="pl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MONARCH AI</title>
-    <link rel="stylesheet" href="style.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div class="container">
-      <h1>MONARCH <span>AI</span></h1>
-      <div id="chat"></div>
-      <div class="input-container">
-        <input type="text" id="userInput" placeholder="Zadaj pytanie..." autocomplete="off"/>
-        <button onclick="sendMessage()">➤</button>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MONARCH AI</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="loader" class="loader">MONARCH AI</div>
+
+  <div class="container hidden">
+    <h1>MONARCH <span>AI</span></h1>
+    <div id="chat"></div>
+    <div class="input-container">
+      <input type="text" id="userInput" placeholder="Zadaj pytanie..." autocomplete="off"/>
+      <button onclick="sendMessage()">➤</button>
     </div>
-    <script src="script.js"></script>
-  </body>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
