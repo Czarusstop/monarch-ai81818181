@@ -36,8 +36,6 @@ async function sendMessage() {
     appendMessage("MONARCH AI", error.message || "Wystąpił nieznany błąd.");
     console.error("Błąd AI:", error);
   }
-
-  }
 }
 
 function appendMessage(sender, text) {
