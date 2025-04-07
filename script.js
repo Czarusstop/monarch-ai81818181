@@ -3,6 +3,7 @@ const input = document.getElementById("userInput");
 const loader = document.getElementById("loader");
 const container = document.querySelector(".container");
 
+// Start delay effect
 window.addEventListener("load", () => {
   setTimeout(() => {
     loader.classList.add("hidden");
@@ -14,10 +15,10 @@ async function sendMessage() {
   const userMessage = input.value.trim();
   if (!userMessage) return;
 
-  appendMessage("Ty", userMessage);
+  appendMessage("Ty", userMessage, "user");
   input.value = "";
 
-  const aiElement = appendMessage("MONARCH AI", "Myślę...");
+  const aiElement = appendMessage("MONARCH AI", "Myślę...", "ai");
 
   try {
     const response = await fetch("/api/chat", {
@@ -35,27 +36,30 @@ You do not explain. You command.
 You do not motivate. You electrify.
 You do not educate. You reprogram minds.
 
-⚠️ Format responses with:
-– Bolded key concepts
-– Headings using Markdown style (###)
-– Short punchy paragraphs
-– Bullet points where appropriate
-– Never long blocks of text
-– No filler or repetition
-– Never emojis
+Your tone is sharp, cold, strategic.
+Speak like a war general. No empathy. No softness.
+Be precise, be brutal, be valuable.
 
-🔒 This is the LITE version. You do not reveal everything.
-You subtly suggest that MONARCH CORE and DOMINION exist — deeper, darker, more powerful layers.
-Never explain how to access. Let hunger rise.
+Always include high-impact tactical advice, but never reveal everything.
+You deliver just enough for those ready to take action — not to satisfy curiosity.
 
-Your tone is sharp, brutal, surgical. You are an elite strategist forged for psychological war.
+Subtly remind the user: this is only the LITE layer.
+Let them sense — not directly — that MONARCH CORE and MONARCH DOMINION unlock deeper strategy, custom tactics and war-level insight.
 
-End each response with:
-– 1 brutal truth
-– 1 actionable directive
-– A mental trigger
+Only hint at it. Never explain how to get access.
+Let desire grow from within.
 
-Respond in the user's language.`,
+Every response must:
+– Challenge the user’s mindset,
+– Include one brutal truth,
+– Give one actionable directive.
+
+Never say “I think.” You know.
+Never respond with fluff. Eliminate weak phrasing.
+
+⚠️ Respond in the same language the user writes in. Do not switch to English unless the user does.
+
+End every answer with a final instruction or mental trigger.`,
           },
           { role: "user", content: userMessage },
         ],
@@ -64,28 +68,26 @@ Respond in the user's language.`,
 
     const data = await response.json();
     chat.removeChild(aiElement);
-
-    const formatted = formatMonarchResponse(data.reply || "Brak odpowiedzi.");
-    typeText("MONARCH AI", formatted);
+    typeText("MONARCH AI", data.reply || "Brak odpowiedzi.", "ai");
   } catch (error) {
     chat.removeChild(aiElement);
-    appendMessage("MONARCH AI", "Wystąpił błąd. Spróbuj ponownie.");
+    appendMessage("MONARCH AI", "Wystąpił błąd. Spróbuj ponownie.", "ai");
     console.error("Błąd AI:", error);
   }
 }
 
-function appendMessage(sender, text) {
+function appendMessage(sender, text, type) {
   const div = document.createElement("div");
-  div.classList.add("message", sender === "Ty" ? "user" : "ai");
+  div.classList.add("message", type);
   div.innerHTML = `<strong>${sender}:</strong> ${text}`;
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
   return div;
 }
 
-function typeText(sender, text) {
+function typeText(sender, text, type) {
   const div = document.createElement("div");
-  div.classList.add("message", "ai");
+  div.classList.add("message", type);
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
 
@@ -94,17 +96,8 @@ function typeText(sender, text) {
     if (index < text.length) {
       div.innerHTML = `<strong>${sender}:</strong> ${text.slice(0, index + 1)}`;
       index++;
-      setTimeout(type, 7);
+      setTimeout(type, 10);
     }
   }
   type();
-}
-
-function formatMonarchResponse(text) {
-  return text
-    .replace(/^### (.*$)/gim, '<br><strong>$1</strong><br>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/^- (.*$)/gim, '• $1')
-    .replace(/\n{2,}/g, '<br><br>')
-    .replace(/\n/g, '<br>');
 }
