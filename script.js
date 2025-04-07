@@ -33,8 +33,10 @@ async function sendMessage() {
     appendMessage("MONARCH AI", data.reply || "Brak odpowiedzi.");
   } catch (error) {
     chat.lastChild.remove();
-    appendMessage("MONARCH AI", "Wystąpił błąd podczas przetwarzania.");
+    appendMessage("MONARCH AI", error.message || "Wystąpił nieznany błąd.");
     console.error("Błąd AI:", error);
+  }
+
   }
 }
 
